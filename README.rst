@@ -1,14 +1,12 @@
 Home server remote power management
 ===================================
 
-This library handles rather specific remote power management scenario: my home network disk
+This library handles rather specific remote power management scenario.
 
 - Server can be woken up with wake-on-lan (WOL)
--
+- There's SSH access to the server (for shutting it down)
+- Server responds to ping (checking whether the server is running)
 
-This library validates OpenSSH public keys.
-
-Currently ssh-rsa, ssh-dss (DSA), ssh-ed25519 and ecdsa keys with NIST curves are supported.
 
 Installation:
 

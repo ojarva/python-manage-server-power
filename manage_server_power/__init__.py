@@ -41,6 +41,7 @@ class ServerPower(object):
                 print "Message:", e.message
                 print "Error:", e.errno, e.strerror
                 raise e
+        return SERVER_UP
 
     def wake_up(self):
         for _ in range(0,3):
