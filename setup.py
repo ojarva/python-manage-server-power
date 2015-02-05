@@ -9,7 +9,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='manage_server_power',
-    version='0.0.3',
+    version='0.0.5',
     description='Small library for shutting down and starting up local server',
     long_description=long_description,
     url='https://github.com/ojarva/python-manage-server-power',

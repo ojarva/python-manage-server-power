@@ -11,6 +11,7 @@ SERVER_UP = 2
 SERVER_UP_NOT_RESPONDING = 3
 
 class ServerPower(object):
+
     def __init__(self, **kwargs):
         self.server_hostname = kwargs["server_hostname"]
         self.server_mac = kwargs["server_mac"]
@@ -27,15 +28,13 @@ class ServerPower(object):
         try:
             s.connect((self.server_hostname, self.server_port))
         except socket.error, e:
-            if e.errno == 61: # connection refused
+            if e.errno in (61, 111): # connection refused
                 return SERVER_UP_NOT_RESPONDING
-            elif e.message == "timed out": # socket timeout
+            elif e.errno in (51, 64, 65, 113):
                 return SERVER_DOWN
             elif e.errno == 8: # invalid hostname
                 raise e
-            elif e.errno == 51: # network is unreachable
-                return SERVER_DOWN
-            elif e.errno == 64: # host is down
+            elif e.message == "timed out": # socket timeout
                 return SERVER_DOWN
             else:
                 print "Message:", e.message
@@ -50,8 +49,9 @@ class ServerPower(object):
     def shutdown(self):
         client = paramiko.SSHClient()
         client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(self.server_hostname, username=self.ssh_username)
-        _, stdout, stderr = client.exec_command("sudo shutdown")
+        _, stdout, stderr = client.exec_command("sudo /sbin/shutdown -h now")
         stdout = stdout.read()
         stderr = stderr.read()
         client.close()
