@@ -10,6 +10,7 @@ SERVER_DOWN = 1
 SERVER_UP = 2
 SERVER_UP_NOT_RESPONDING = 3
 
+
 class ServerPower(object):
 
     def __init__(self, **kwargs):
@@ -28,13 +29,13 @@ class ServerPower(object):
         try:
             s.connect((self.server_hostname, self.server_port))
         except socket.error, e:
-            if e.errno in (61, 111): # connection refused
+            if e.errno in (61, 111):  # connection refused
                 return SERVER_UP_NOT_RESPONDING
             elif e.errno in (51, 64, 65, 113):
                 return SERVER_DOWN
-            elif e.errno == 8: # invalid hostname
+            elif e.errno == 8:  # invalid hostname
                 raise e
-            elif e.message == "timed out": # socket timeout
+            elif e.message == "timed out":  # socket timeout
                 return SERVER_DOWN
             else:
                 print "Message:", e.message
@@ -43,7 +44,7 @@ class ServerPower(object):
         return SERVER_UP
 
     def wake_up(self):
-        for _ in range(0,3):
+        for _ in range(0, 3):
             wol.send_magic_packet(self.server_mac, port=self.wol_port)
 
     def shutdown(self):

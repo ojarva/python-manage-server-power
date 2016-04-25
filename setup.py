@@ -37,7 +37,7 @@ setup(
     test_suite="tests",
     install_requires=['wakeonlan', 'paramiko'],
 
-    extras_require = {
+    extras_require={
         'dev': ['twine', 'wheel'],
     },
 )
