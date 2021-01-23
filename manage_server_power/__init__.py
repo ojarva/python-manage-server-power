@@ -28,7 +28,7 @@ class ServerPower(object):
         s.settimeout(self.socket_timeout)
         try:
             s.connect((self.server_hostname, self.server_port))
-        except socket.error, e:
+        except socket.error as e:
             if e.errno in (61, 111):  # connection refused
                 return SERVER_UP_NOT_RESPONDING
             elif e.errno in (51, 64, 65, 113):
@@ -38,8 +38,8 @@ class ServerPower(object):
             elif e.message == "timed out":  # socket timeout
                 return SERVER_DOWN
             else:
-                print "Message:", e.message
-                print "Error:", e.errno, e.strerror
+                print("Message:", e.message)
+                print("Error:", e.errno, e.strerror)
                 raise e
         return SERVER_UP
 
@@ -61,8 +61,8 @@ class ServerPower(object):
 
 def main():
     sp = ServerPower(server_hostname="192.168.1.3", server_mac="28:92:4a:2b:03:c9", ssh_username="powermanagement", broadcast_ip="192.168.1.255")
-    print sp.is_alive()
-    print sp.wake_up()
+    print(sp.is_alive())
+    print(sp.wake_up())
     return 0
 
 if __name__ == '__main__':
